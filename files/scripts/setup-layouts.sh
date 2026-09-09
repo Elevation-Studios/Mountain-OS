@@ -134,3 +134,32 @@ EOF
 
 # Secure execute permissions on the toggle engine
 chmod +x /usr/local/bin/mountain-toggle.sh
+# 8. Inject Custom Mountain-OS Accent Colors (Ice Blue Theme)
+KDE_GLOBALS_DIR="/etc/skel/.config"
+mkdir -p "${KDE_GLOBALS_DIR}"
+
+# Write custom accent color profiles directly into the default user configuration
+cat << 'EOF' >> "${KDE_GLOBALS_DIR}/kdeglobals"
+[General]
+accentColor=100,149,237,255
+
+[Colors:Button]
+BackgroundAlternate=220,230,242
+BackgroundNormal=235,245,255
+ForegroundNormal=0,0,0
+
+[Colors:Selection]
+BackgroundNormal=100,149,237
+ForegroundNormal=255,255,255
+
+[Colors:View]
+BackgroundAlternate=240,245,250
+BackgroundNormal=255,255,255
+ForegroundNormal=0,0,0
+
+[Colors:Window]
+BackgroundNormal=245,248,252
+ForegroundNormal=0,0,0
+EOF
+
+echo "Mountain-OS visual accents deployed successfully."
