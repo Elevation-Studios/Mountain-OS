@@ -12,7 +12,7 @@ modules:
 
   - type: rpm-ostree
     install:
-      - google-chrome-stable
+      - chromium
       - okular
       - kate
       - spectacle
