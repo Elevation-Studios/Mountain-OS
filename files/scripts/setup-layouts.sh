@@ -55,7 +55,7 @@ mainBar.addWidget("org.kde.plasma.digitalclock");
 EOF
 
 # 4. Modify default system configurations: Push Window controls to top-left corner
-KWIN_PRESET="/usr/share/kubuntu-default-settings/kf6-settings/kwinrc"
+KWIN_PRESET="/etc/xdg/kwinrc"
 mkdir -p "$(dirname ${KWIN_PRESET})"
 
 cat << 'EOF' >> "${KWIN_PRESET}"
