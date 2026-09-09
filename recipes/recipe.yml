@@ -4,8 +4,11 @@ base-image: ghcr.io/fedora-ostree-desktops/kinoite
 image-version: 41
 
 modules:
-  - type: flatpak
-    repo: https://flathub.org
+  - type: default-flatpaks
+    notify: true
+    system:
+      install:
+        - org.mozilla.firefox
 
   - type: rpm-ostree
     install:
