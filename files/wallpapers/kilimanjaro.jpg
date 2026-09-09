@@ -1,0 +1,17 @@
+# 5. Inject Custom Mountain-OS Wallpapers into the system folders
+SYSTEM_WALLPAPER_DIR="/usr/share/wallpapers/MountainOS"
+mkdir -p "${SYSTEM_WALLPAPER_DIR}"
+
+# Copy the image from your repository assets straight into the system registry
+if [ -f "/tmp/files/wallpapers/kilimanjaro.jpg" ]; then
+    cp "/tmp/files/wallpapers/kilimanjaro.jpg" "${SYSTEM_WALLPAPER_DIR}/kilimanjaro.jpg"
+fi
+
+# Set your custom photo as the default background for every new user account
+KDE_WALLPAPER_SETTINGS="/etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc"
+mkdir -p "$(dirname ${KDE_WALLPAPER_SETTINGS})"
+
+cat << 'EOF' > "${KDE_WALLPAPER_SETTINGS}"
+[Containing][UserBackgrounds]
+CustomWallpapers=${SYSTEM_WALLPAPER_DIR}/kilimanjaro.jpg
+EOF
