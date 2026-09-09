@@ -54,11 +54,12 @@ mainBar.addWidget("org.kde.plasma.systemtray");
 mainBar.addWidget("org.kde.plasma.digitalclock");
 EOF
 
-# 4. Modify default system configurations: Push Window controls to top-left corner
-KWIN_PRESET="/etc/xdg/kwinrc"
-mkdir -p "$(dirname ${KWIN_PRESET})"
+# 4. Modify Fedora default settings: Move Window buttons to the top-left corner
+# We drop this into /etc/skel so every new user account automatically gets this layout
+FEDORA_SKEL_DIR="/etc/skel/.config"
+mkdir -p "${FEDORA_SKEL_DIR}"
 
-cat << 'EOF' >> "${KWIN_PRESET}"
+cat << 'EOF' > "${FEDORA_SKEL_DIR}/kwinrc"
 [org.kde.kdecoration2]
 ButtonsOnLeft=XIA
 ButtonsOnRight=F
