@@ -1,0 +1,25 @@
+# Mountain-OS Kilimanjaro Base Build Configuration
+name: mountain-os
+description: A Fedora-powered Linux distro featuring a premium Mac-inspired aesthetic with a native Windows layout toggle.
+
+# Use Fedora KDE Kinoite as the rock-solid base
+base-image: ghcr.io/fedora-ostree-desktops/kinoite:41
+
+modules:
+  # Enable Flatpak and Flathub repositories out of the box
+  - type: flatpak
+    repo: https://flathub.org 
+
+  # Pre-install essential tools for work, school, and media
+  - type: rpm-ostree
+    install:
+      - google-chrome-stable     # Secure, fast web browser
+      - okular              # Excellent PDF annotator for students
+      - kate                # Powerful modern text editor
+      - spectacle           # Screenshot and recording utility
+      - fastfetch           # System info tool for terminal enthusiasts
+
+  # Custom scripts and visual file placements
+  - type: script
+    scripts:
+      - setup-layouts.sh    # The script that handles the Mac/Windows visual toggle
