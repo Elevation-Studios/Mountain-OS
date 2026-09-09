@@ -1,25 +1,45 @@
-# Mountain-OS Kilimanjaro Base Build Configuration
+# =========================================================================
+#                    🏔️ MOUNTAIN-OS: KILIMANJARO 🏔️
+#        Core Recipe Blueprint File for BlueBuild & GitHub Actions
+# =========================================================================
+
+# The official name of your operating system distribution
 name: mountain-os
+
+# A short summary describing the core goal of Mountain-OS
 description: A Fedora-powered Linux distro featuring a premium Mac-inspired aesthetic with a native Windows layout toggle.
 
-# Use Fedora KDE Kinoite as the rock-solid base
-base-image: ghcr.io/fedora-ostree-desktops/kinoite:41
+# The foundational base operating system image. 
+# Target Fedora 44 KDE Kinoite for the modern stable atomic framework.
+base-image: ghcr.io/fedora-ostree-desktops/kinoite:44
 
 modules:
-  # Enable Flatpak and Flathub repositories out of the box
+  # -----------------------------------------------------------------------
+  # MODULE 1: FLATPAK PACKAGES (The App Store Setup)
+  # -----------------------------------------------------------------------
+  # This module automatically enables the universal Flathub repository 
+  # so your users can download apps like Spotify, Discord, and Zoom easily.
   - type: flatpak
-    repo: https://flathub.org 
+    repo: https://flathub.org
 
-  # Pre-install essential tools for work, school, and media
+  # -----------------------------------------------------------------------
+  # MODULE 2: SYSTEM APPLICATIONS (Pre-installed Packages)
+  # -----------------------------------------------------------------------
+  # These are native RPM packages baked directly into Mountain-OS 
+  # to make it immediately ready for work, school, and daily use.
   - type: rpm-ostree
     install:
-      - google-chrome-stable     # Secure, fast web browser
-      - okular              # Excellent PDF annotator for students
-      - kate                # Powerful modern text editor
-      - spectacle           # Screenshot and recording utility
-      - fastfetch           # System info tool for terminal enthusiasts
+      - google-chrome-stable   # Google Chrome web browser
+      - okular                 # Advanced PDF viewer for annotating school textbooks
+      - kate                   # High-quality text and code editor for productivity
+      - spectacle              # Screenshot and video screen recording utility for classes
+      - fastfetch              # A cool terminal utility that displays system specifications
 
-  # Custom scripts and visual file placements
+  # -----------------------------------------------------------------------
+  # MODULE 3: CUSTOM SCRIPTS (Visual Layout Toggles)
+  # -----------------------------------------------------------------------
+  # This section executes custom background shell scripts to handle 
+  # the switching behavior between the Mac-like look and the Windows option.
   - type: script
     scripts:
-      - setup-layouts.sh    # The script that handles the Mac/Windows visual toggle
+      - setup-layouts.sh    # Executing the theme and panel configuration script
