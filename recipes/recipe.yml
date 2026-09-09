@@ -4,7 +4,7 @@ base-image: ghcr.io/blue-build/base-images/fedora-kinoite
 image-version: latest
 
 modules:
-  - type: default-flatpaks
+  - type: default-flatpaks@v1
     notify: true
     system:
       install:
