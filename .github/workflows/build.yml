@@ -1,22 +1,22 @@
-name: Build Mountain-OS Kilimanjaro
+name: Build Mountain-OS
 on:
   push:
-    branches:
-      - main
+    paths-ignore:
+      - "**.md"
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build Mountain-OS ISO
+  bluebuild:
+    name: Build Custom Image
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       packages: write
+      id-token: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Generate Custom Fedora Image
+      - name: Build Custom Image
         uses: blue-build/github-action@v1
         with:
           recipe: 'recipe.yml'
+          registry_token: ${{ github.token }}
+          is_not_stable: true
