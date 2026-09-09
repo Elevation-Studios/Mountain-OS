@@ -1,6 +1,7 @@
 name: mountain-os
 description: A Fedora-powered Linux distro featuring a premium Mac-inspired aesthetic with a native Windows layout toggle.
-base-image: ghcr.io/fedora-ostree-desktops/kinoite:41
+base-image: ghcr.io/fedora-ostree-desktops/kinoite
+image-version: 41
 
 modules:
   - type: flatpak
