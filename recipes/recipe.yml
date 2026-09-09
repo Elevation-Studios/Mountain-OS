@@ -7,7 +7,6 @@ modules:
   - type: rpm-ostree
     install:
       - firefox
-      - google-chrome-stable
       - okular
       - kate
       - spectacle
