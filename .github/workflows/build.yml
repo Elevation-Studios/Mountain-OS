@@ -19,4 +19,4 @@ jobs:
         with:
           recipe: 'recipe.yml'
           registry_token: ${{ github.token }}
-          is_not_stable: true
+          build_opts: '--no-sign'
