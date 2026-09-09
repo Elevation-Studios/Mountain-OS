@@ -78,8 +78,8 @@ cat << 'EOF' > /usr/local/bin/mountain-welcome.sh
 FIRSTBOOT_FLAG="$HOME/.config/.mountain_welcome_done"
 if [ ! -f "$FIRSTBOOT_FLAG" ]; then
     zenity --info \
-        --title="🏔️ Welcome to Mountain-OS" \
-        --text="✨ **Welcome to Mountain-OS: Kilimanjaro!**\n\nThank you for installing our custom, high-performance Fedora desktop.\n\nYour environment is pre-configured with a premium Mac-inspired visual layout layout layout. To switch instantly to a traditional Windows layout scheme, locate and launch the **Layout Switcher** script from your application utilities utility dashboard.\n\nEnjoy your new workstation experience!" \
+        --title=" Welcome to Mountain-OS" \
+        --text=" **Welcome to Mountain-OS: Kilimanjaro!**\n\nThank you for installing our custom, high-performance Fedora desktop.\n\nYour environment is pre-configured with a premium Mac-inspired visual layout layout layout. To switch instantly to a traditional Windows layout scheme, locate and launch the **Layout Switcher** script from your application utilities utility dashboard.\n\nEnjoy your new workstation experience!" \
         --width=450 --height=250
     
     # Lock the flag file down so it never triggers again
@@ -88,3 +88,49 @@ fi
 EOF
 
 chmod +x /usr/local/bin/mountain-welcome.sh
+# 7. Create the Desktop Shortcut Toggle Engine for Layout Switching
+DESKTOP_DIR="/etc/skel/Desktop"
+mkdir -p "${DESKTOP_DIR}"
+
+# Write the system shortcut launcher onto every new user's Desktop layout
+cat << 'EOF' > "${DESKTOP_DIR}/switch-layout.desktop"
+[Desktop Entry]
+Type=Application
+Name=🔃 Switch Layout (Mac/Windows)
+Comment=Instantly toggle Mountain-OS between a premium Mac aesthetic and traditional Windows panel formats
+Exec=/usr/local/bin/mountain-toggle.sh
+Icon=preferences-desktop-display-change
+Terminal=false
+Categories=Utility;Settings;
+EOF
+
+# Make sure the Desktop shortcut file can be executed natively by KDE
+chmod +x "${DESKTOP_DIR}/switch-layout.desktop"
+
+# Write the actual engine script that swaps the configurations behind the scenes
+cat << 'EOF' > /usr/local/bin/mountain-toggle.sh
+#!/usr/bin/env bash
+# Track the active display format layout state using a basic text flag
+STATE_FILE="$HOME/.config/.mountain_layout_state"
+
+if [ ! -f "$STATE_FILE" ]; then
+    echo "mac" > "$STATE_FILE"
+fi
+
+CURRENT_STATE=$(cat "$STATE_FILE")
+
+if [ "$CURRENT_STATE" = "mac" ]; then
+    # Morph to the Windows Panel Layout Scheme
+    qdbus-qt6 org.kde.plasma-shell /PlasmaShell evaluateScriptFile "/usr/share/org.mountainos/layouts/windows-layout.js"
+    echo "windows" > "$STATE_FILE"
+    zenity --notification --text="Layout switched to Windows Classic Mode!" --window-icon="preferences-desktop-display-change"
+else
+    # Morph back to the default Mac Dock Style Arrangement
+    qdbus-qt6 org.kde.plasma-shell /PlasmaShell evaluateScriptFile "/usr/share/org.mountainos/layouts/mac-layout.js"
+    echo "mac" > "$STATE_FILE"
+    zenity --notification --text="Layout switched to Premium Mac Aesthetic Mode!" --window-icon="preferences-desktop-display-change"
+fi
+EOF
+
+# Secure execute permissions on the toggle engine
+chmod +x /usr/local/bin/mountain-toggle.sh
