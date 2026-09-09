@@ -1,7 +1,7 @@
 name: mountain-os
 description: A Fedora-powered Linux distro featuring a premium Mac-inspired aesthetic with a native Windows layout toggle.
 base-image: ghcr.io/ublue-os/kinoite-main
-image-version: 41
+image-version: latest
 
 modules:
   - type: rpm-ostree
