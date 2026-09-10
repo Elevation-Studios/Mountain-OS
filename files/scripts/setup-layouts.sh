@@ -178,3 +178,8 @@ cat << 'EOF' >> /etc/skel/.config/kwinrc
 [Scripting]
 EnableScripts=true
 EOF
+# 10. Force Custom Mountain-OS System Identity Branding
+if [ -f "/tmp/files/os-release" ]; then
+    cp "/tmp/files/os-release" /etc/os-release
+    cp "/tmp/files/os-release" /usr/lib/os-release
+fi
