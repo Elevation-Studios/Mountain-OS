@@ -1,0 +1,10 @@
+NAME="Mountain-OS"
+VERSION="Kilimanjaro"
+ID=mountainos
+ID_LIKE="fedora kinoite"
+VERSION_ID=41
+PRETTY_NAME="Mountain-OS Kilimanjaro (Fedora-Powered)"
+ANSI_COLOR="0;34"
+HOME_URL="https://github.com"
+BUG_REPORT_URL="https://github.com/issues"
+SUPPORT_END=2028-11-15
