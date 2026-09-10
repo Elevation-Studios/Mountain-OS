@@ -183,3 +183,12 @@ if [ -f "/tmp/files/os-release" ]; then
     cp "/tmp/files/os-release" /etc/os-release
     cp "/tmp/files/os-release" /usr/lib/os-release
 fi
+# 11. Force Mountain-OS Default Wallpaper and Terminal Greetings
+mkdir -p /etc/skel/.config
+cat << 'EOF' >> /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc
+[Containing][UserBackgrounds]
+CustomWallpapers=/usr/share/wallpapers/MountainOS/kilimanjaro.jpg
+EOF
+
+# Make Fastfetch run automatically every time a user opens a terminal window
+echo "fastfetch" >> /etc/skel/.bashrc
