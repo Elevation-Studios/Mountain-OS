@@ -214,3 +214,18 @@ fi
 
 # Make Fastfetch run automatically every time a user opens a terminal window
 echo "fastfetch" >> /etc/skel/.bashrc
+# 12. Enforce High-Definition Kilimanjaro Wallpaper as System-Wide Default
+OVERRIDE_DIR="/usr/share/plasma/look-and-feel/org.kde.breeze.desktop/contents/layouts"
+mkdir -p "${OVERRIDE_DIR}"
+
+# Write a native hook to force the plasma shell to load your photo immediately on first boot
+cat << 'EOF' > "${OVERRIDE_DIR}/org.kde.plasma.desktop-layout.js"
+var desktopsArray = desktops();
+for (var i = 0; i < desktopsArray.length; i++) {
+    var desktop = desktopsArray[i];
+    desktop.currentConfigGroup = new Array("Wallpaper", "org.kde.image", "General");
+    desktop.writeConfig("Image", "/usr/share/wallpapers/MountainOS/kilimanjaro.jpg");
+}
+EOF
+
+echo "Mountain-OS master wallpaper profile locked successfully."
