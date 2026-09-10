@@ -163,3 +163,18 @@ ForegroundNormal=0,0,0
 EOF
 
 echo "Mountain-OS visual accents deployed successfully."
+# 9. Grant Absolute System Permissions for Layout Scripting
+KDE_SHELL_CONFIG="/etc/skel/.config/plasmashellrc"
+mkdir -p "$(dirname ${KDE_SHELL_CONFIG})"
+
+cat << 'EOF' >> "${KDE_SHELL_CONFIG}"
+[Shell][Development]
+EnableScripting=true
+EOF
+
+# Apply the permission live to the default active user profile block
+mkdir -p /etc/skel/.config
+cat << 'EOF' >> /etc/skel/.config/kwinrc
+[Scripting]
+EnableScripts=true
+EOF
