@@ -92,20 +92,37 @@ chmod +x /usr/local/bin/mountain-welcome.sh
 DESKTOP_DIR="/etc/skel/Desktop"
 mkdir -p "${DESKTOP_DIR}"
 
-# Write the system shortcut launcher onto every new user's Desktop layout
 cat << 'EOF' > "${DESKTOP_DIR}/switch-layout.desktop"
 [Desktop Entry]
 Type=Application
 Name=🔃 Switch Layout (Mac/Windows)
 Comment=Instantly toggle Mountain-OS between a premium Mac aesthetic and traditional Windows panel formats
-Exec=/usr/local/bin/mountain-toggle.sh
+Exec=bash /usr/local/bin/mountain-toggle.sh
 Icon=preferences-desktop-display-change
 Terminal=false
 Categories=Utility;Settings;
 EOF
-
-# Make sure the Desktop shortcut file can be executed natively by KDE
 chmod +x "${DESKTOP_DIR}/switch-layout.desktop"
+
+# Fix path execution target directory block location directly inside system tracking path
+mkdir -p /usr/local/bin
+cat << 'EOF' > /usr/local/bin/mountain-toggle.sh
+#!/usr/bin/env bash
+STATE_FILE="$HOME/.config/.mountain_layout_state"
+if [ ! -f "$STATE_FILE" ]; then
+    echo "windows" > "$STATE_FILE"
+fi
+CURRENT_STATE=$(cat "$STATE_FILE")
+if [ "$CURRENT_STATE" = "mac" ]; then
+    qdbus-qt6 org.kde.plasmashell /PlasmaShell evaluateScriptFile "/usr/share/org.mountainos/layouts/windows-layout.js"
+    echo "windows" > "$STATE_FILE"
+else
+    qdbus-qt6 org.kde.plasmashell /PlasmaShell evaluateScriptFile "/usr/share/org.mountainos/layouts/mac-layout.js"
+    echo "mac" > "$STATE_FILE"
+fi
+EOF
+chmod +x /usr/local/bin/mountain-toggle.sh
+
 
 # Write the actual engine script that swaps the configurations behind the scenes
 cat << 'EOF' > /usr/local/bin/mountain-toggle.sh
