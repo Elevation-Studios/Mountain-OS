@@ -4,6 +4,12 @@ base-image: ghcr.io/ublue-os/kinoite-main
 image-version: latest
 
 modules:
+  # The Files module physically copies your scripts securely into the OS folders
+  - type: files
+    files:
+      - source: scripts/setup-layouts.sh
+        destination: /usr/local/bin/setup-layouts.sh
+
   - type: rpm-ostree
     install:
       - firefox
@@ -13,6 +19,7 @@ modules:
       - fastfetch
       - zenity
 
+  # The Script module executes your setup script during the image build process
   - type: script
     scripts:
       - setup-layouts.sh
